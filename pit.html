@@ -5,7 +5,12 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<label class="form-label">Event:</label>
+<body class="dark-body">
+  <div class="dark-card">
+    <h1 class="form-title">Pit Scouting</h1>
+    <form>
+
+      <label class="form-label">Event:</label>
       <select class="form-input" id="event">
         <option value="">Select an event...</option>
         <option value="2026mabil">2026 Minuteman</option>
@@ -20,51 +25,10 @@
         <option value="">Select an event first...</option>
       </select>
 
-<script>
-  let teamsData = {};
-
-  fetch('teams.json')
-    .then(res => res.json())
-    .then(data => {
-      teamsData = data;
-    })
-    .catch(err => console.error('Could not load teams.json:', err));
-
-  document.getElementById('event').addEventListener('change', function () {
-    const eventKey = this.value;
-    const teamSelect = document.getElementById('team');
-
-    teamSelect.innerHTML = '<option value="">Select a team...</option>';
-
-    if (eventKey && teamsData[eventKey]) {
-      teamsData[eventKey].forEach(team => {
-        const option = document.createElement('option');
-        option.value = team.number;
-        option.textContent = `${team.number} – ${team.name}`;
-        teamSelect.appendChild(option);
-      });
-      teamSelect.disabled = false;
-    } else {
-      teamSelect.innerHTML = '<option value="">Select an event first...</option>';
-      teamSelect.disabled = true;
-    }
-  });
-</script>
-  
-
-<body class="dark-body">
-
-  <div class="dark-card">
-    <h1 class="form-title">Pit Scouting</h1>
-
-    <form>
-
       <label class="form-label">Robot Height (inches)</label>
       <input class="form-input" type="number">
-
       <label class="form-label">Robot Width (inches)</label>
       <input class="form-input" type="number">
-
       <label class="form-label">Robot Length (inches)</label>
       <input class="form-input" type="number">
 
@@ -76,13 +40,10 @@
         <option value="west_coast">West Coast</option>
         <option value="mecanum">Mecanum</option>
         <option value="other">Other</option>
-</select>
+      </select>
 
       <label class="form-label">Robot Weight (lbs)</label>
       <input class="form-input" type="number">
-
-      <label class="form-label">Drivetrain Type</label>
-      <input class="form-input" type="text" placeholder="Swerve, Tank, West Coast...">
 
       <label class="form-label">Has Autonomous?</label>
       <div class="form-checkbox-row">
@@ -100,12 +61,39 @@
       <textarea class="form-textarea"></textarea>
 
       <button class="form-submit" type="submit">Submit</button>
-
     </form>
   </div>
 
+  <script>
+    let teamsData = {};
+
+    fetch('teams.json')
+      .then(res => res.json())
+      .then(data => {
+        teamsData = data;
+      })
+      .catch(err => console.error('Could not load teams.json:', err));
+
+    document.getElementById('event').addEventListener('change', function () {
+      const eventKey = this.value;
+      const teamSelect = document.getElementById('team');
+
+      teamSelect.innerHTML = '<option value="">Select a team...</option>';
+
+      if (eventKey && teamsData[eventKey]) {
+        teamsData[eventKey].forEach(team => {
+          const option = document.createElement('option');
+          option.value = team.number;
+          option.textContent = `${team.number} – ${team.name}`;
+          teamSelect.appendChild(option);
+        });
+        teamSelect.disabled = false;
+      } else {
+        teamSelect.innerHTML = '<option value="">Select an event first...</option>';
+        teamSelect.disabled = true;
+      }
+    });
+  </script>
+
 </body>
 </html>
-
-
-
