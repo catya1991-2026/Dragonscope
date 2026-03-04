@@ -158,17 +158,20 @@
       <input class="form-input" type="text">
 
        <label class="form-label">Scouter Team</label>
-      <input class="form-input" type="text">
+      <option value="">Select your team</option>
+        <option value="10063">10063</option>
+        <option value="1071">1071</option>
+      </select>
 
       <hr class="section-divider">
       
-      <label class="form-label">Event</label>
-      <select class="form-input" id="event">
-        <option value="">Select an event...</option>
-        <option value="2026mabil">2026 Minuteman</option>
-        <option value="2026mawne">2026 Western NE</option>
-        <option value="2026ctwat">2026 Waterbury</option>
-        <option value="2026rikin">2026 URI</option>
+      <label class="form-label">Drive Train Type</label>
+      <select class="form-input" id="drive train">
+        <option value="">Select a drive train type</option>
+        <option value="swerve">Swerve</option>
+        <option value="tank">Tank</option>
+        <option value="mecanum">Mecanum</option>
+        <option value="other">Other (put in notes)</option>
         </select>
 
       <label class="form-label">Robot Width (inches)</label>
@@ -193,26 +196,28 @@
         <option value="swerve">NOT USING SWERVE</option>
       </select>
 
-<label class="form-label">Motor Types</label>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
-  <div style="color: #ff8601; font-weight: bold;">Drive</div>
-  <div style="color: #ff8601; font-weight: bold;">Steering</div>
+<label class="form-label">Drive Train Motor Types</label>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; background: #2a2a2a; border-radius: 10px; padding: 14px;">
+  
+  <div style="color: #ff8601; font-weight: bold; font-size: 16px; padding-bottom: 6px; border-bottom: 1px solid #444;">Drive</div>
+  <div style="color: #ff8601; font-weight: bold; font-size: 16px; padding-bottom: 6px; border-bottom: 1px solid #444;">Steering</div>
 
   <div class="form-checkbox-row">
-    <input type="checkbox" name="drive_motor" value="kraken X60">
-    <span>Kraken</span>
+    <input type="checkbox" name="drive_motor" value="kraken">
+    <span>Kraken X60</span>
   </div>
   <div class="form-checkbox-row">
-    <input type="checkbox" name="steer_motor" value="kraken X60">
-    <span>Kraken</span>
+    <input type="checkbox" name="steer_motor" value="kraken">
+    <span>Kraken X60</span>
   </div>
 
-<input type="checkbox" name="drive_motor" value="kraken X44">
-    <span>Kraken</span>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="kraken">
+    <span>Kraken X44</span>
   </div>
   <div class="form-checkbox-row">
-    <input type="checkbox" name="steer_motor" value="kraken X44">
-    <span>Kraken</span>
+    <input type="checkbox" name="steer_motor" value="kraken">
+    <span>Kraken X44</span>
   </div>
   
   <div class="form-checkbox-row">
@@ -259,19 +264,11 @@
     <input type="checkbox" name="steer_motor" value="other">
     <span>Other</span>
   </div>
+
 </div>
 
-      <label class="form-label">Has Autonomous?</label>
-      <div class="form-checkbox-row">
-        <input type="checkbox">
-        <span>Yes</span>
-      </div>
-
-      <label class="form-label">Can Climb?</label>
-      <div class="form-checkbox-row">
-        <input type="checkbox">
-        <span>Yes</span>
-      </div>
+    <hr class="section-divider">
+      
 
       <label class="form-label">Notes</label>
       <textarea class="form-textarea"></textarea>
@@ -308,6 +305,7 @@
 
 </body>
 </html>
+
 
 
 
