@@ -1,14 +1,194 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Match Scouting</title>
+  <title>1991 Pit Scouting</title>
   <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; }
+    .site-header {
+      background: #ff8601;
+      color: black;
+      text-align: center;
+      padding: 20px;
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      width: 100%;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 16px;
+    }
+    .nav-buttons .button {
+      flex: 1;
+      max-width: 220px;
+      text-align: center;
+      font-size: 18px;
+      padding: 16px 12px;
+    }
+    .dark-card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 24px 20px;
+      max-width: 600px;
+      margin: 0 auto 40px auto;
+      width: calc(100% - 32px);
+    }
+    .form-title {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 100%;
+      margin: 0;
+    }
+    .form-label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 14px 12px;
+      border-radius: 10px;
+      border: none;
+      background: #2a2a2a;
+      color: white;
+      font-size: 16px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 20px;
+    }
+    input.form-input { background-image: none; }
+    .form-textarea {
+      width: 100%;
+      padding: 14px 12px;
+      border-radius: 10px;
+      border: none;
+      background: #2a2a2a;
+      color: white;
+      font-size: 16px;
+      min-height: 120px;
+      resize: vertical;
+    }
+    .form-submit {
+      background: #ff8601;
+      color: black;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .form-submit:disabled {
+      background: #888;
+      cursor: not-allowed;
+    }
+    .form-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      font-size: 16px;
+    }
+    .form-checkbox-row input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: #ff8601;
+    }
+    .section-divider {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 6px 0;
+    }
+    .section-header {
+      color: #ff8601;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: left;
+      margin: 4px 0 0 0;
+    }
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff8601;
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      z-index: 999;
+    }
+    footer {
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      padding: 16px;
+    }
+  </style>
 </head>
-<body>
+<body class="dark-body">
 
-  <h1>Match Scouting</h1>
+  <div class="site-header">DRAGONSCOPE</div>
 
-  <p>Match scouting form goes here.</p>
+  <div class="nav-buttons">
+    <a class="button" href="index.html">Home</a>
+    <a class="button" href="pit.html">Pit Scouting</a>
+  </div>
 
-</body>
-</html>
+  <div class="dark-card">
+    <h1 class="form-title">Match Scouting</h1>
+    <form id="pitForm">
+
+      <hr class="section-divider">
+
+      <label class="form-label">Event</label>
+      <select class="form-input" id="event">
+        <option value="">Select an event...</option>
+        <option value="2026mabil">2026 Minuteman</option>
+        <option value="2026mawne">2026 Western NE</option>
+        <option value="2026ctwat">2026 Waterbury</option>
+        <option value="2026rikin">2026 URI</option>
+        <option value="2026cthar">2026 Hartford</option>
+      </select>
+
+      <label class="form-label">Team</label>
+      <select class="form-input" id="team" disabled>
+        <option value="">Select an event first...</option>
+      </select>
+
+      <hr class="section-divider">
+
+      <label class="form-label">Scouter Name</label>
+      <input class="form-input" type="text" id="scouter_name" placeholder="Enter your name...">
+
+      <label class="form-label">Scouter Team</label>
+      <select class="form-input" id="scouter_team">
+        <option value="">Select your team</option>
+        <option value="10063">10063</option>
+        <option value="1071">1071</option>
+      </select>
+      
+      <hr class="section-divider">
+
