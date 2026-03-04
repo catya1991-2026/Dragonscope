@@ -162,13 +162,14 @@
 
       <hr class="section-divider">
       
-      <label class="form-label">Drive Train Type</label>
-      <input class="form-input">
-        <option value="">Select Drive Type</option>
-        <option value="swerve">Swerve Drive</option>
-        <option value="tank">Tank Drive</option>
-        <option value="mecanum">Mecanum Drive</option>
-      </select>
+      <label class="form-label">Event</label>
+      <select class="form-input" id="event">
+        <option value="">Select an event...</option>
+        <option value="2026mabil">2026 Minuteman</option>
+        <option value="2026mawne">2026 Western NE</option>
+        <option value="2026ctwat">2026 Waterbury</option>
+        <option value="2026rikin">2026 URI</option>
+        </select>
 
       <label class="form-label">Robot Width (inches)</label>
       <input class="form-input" type="text">
@@ -192,30 +193,72 @@
         <option value="swerve">NOT USING SWERVE</option>
       </select>
 
-      <label class="form-label">Motor Type (Put other in notes)</label>
-<div class="form-checkbox-row">
-  <input type="radio" name="motors" value="kraken">
-  <span>Kraken</span>
-</div>
-<div class="form-checkbox-row">
-  <input type="radio" name="motors" value="falcon">
-  <span>Falcon 500</span>
-</div>
-<div class="form-checkbox-row">
-  <input type="radio" name="motors" value="neo">
-  <span>NEO</span>
-</div>
-<div class="form-checkbox-row">
-  <input type="radio" name="motors" value="neo_vortex">
-  <span>NEO Vortex</span>
-</div>
-<div class="form-checkbox-row">
-  <input type="radio" name="motors" value="cim">
-  <span>CIM</span>
-</div>
-<div class="form-checkbox-row">
-  <input type="radio" name="motors" value="other">
-  <span>Other</span>
+<label class="form-label">Motor Types</label>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
+  <div style="color: #ff8601; font-weight: bold;">Drive</div>
+  <div style="color: #ff8601; font-weight: bold;">Steering</div>
+
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="kraken X60">
+    <span>Kraken</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="kraken X60">
+    <span>Kraken</span>
+  </div>
+
+<input type="checkbox" name="drive_motor" value="kraken X44">
+    <span>Kraken</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="kraken X44">
+    <span>Kraken</span>
+  </div>
+  
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="falcon">
+    <span>Falcon 500</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="falcon">
+    <span>Falcon 500</span>
+  </div>
+
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="neo">
+    <span>NEO</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="neo">
+    <span>NEO</span>
+  </div>
+
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="neo_vortex">
+    <span>NEO Vortex</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="neo_vortex">
+    <span>NEO Vortex</span>
+  </div>
+
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="cim">
+    <span>CIM</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="cim">
+    <span>CIM</span>
+  </div>
+
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="drive_motor" value="other">
+    <span>Other</span>
+  </div>
+  <div class="form-checkbox-row">
+    <input type="checkbox" name="steer_motor" value="other">
+    <span>Other</span>
+  </div>
 </div>
 
       <label class="form-label">Has Autonomous?</label>
@@ -265,6 +308,7 @@
 
 </body>
 </html>
+
 
 
 
