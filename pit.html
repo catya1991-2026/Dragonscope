@@ -3,14 +3,104 @@
 <head>
   <title>1991 Pit Scouting</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .site-header {
+      background: #ff8601;
+      color: black;
+      text-align: center;
+      padding: 18px;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .dark-card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 450px;
+      margin: 0 auto 40px auto;
+    }
+    .form-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #2a2a2a;
+      color: white;
+      font-size: 15px;
+      box-sizing: border-box;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 18px;
+    }
+    input.form-input {
+      background-image: none;
+    }
+    .form-textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #2a2a2a;
+      color: white;
+      font-size: 15px;
+      min-height: 100px;
+      box-sizing: border-box;
+    }
+    .form-submit {
+      background: #ff8601;
+      color: black;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    .form-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+    .section-divider {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 10px 0;
+    }
+  </style>
 </head>
-
 <body class="dark-body">
+
+  <div class="site-header">🐉 DRAGONSCOPE SCOUTING</div>
+
+  <div class="button-row" style="margin-bottom: 20px;">
+    <a class="button" href="index.html">🏠 Home</a>
+    <a class="button" href="match.html">Match Scouting</a>
+  </div>
+
   <div class="dark-card">
     <h1 class="form-title">Pit Scouting</h1>
     <form>
 
-      <label class="form-label">Event:</label>
+      <label class="form-label">Event</label>
       <select class="form-input" id="event">
         <option value="">Select an event...</option>
         <option value="2026mabil">2026 Minuteman</option>
@@ -20,15 +110,19 @@
         <option value="2026cthar">2026 Hartford</option>
       </select>
 
-      <label class="form-label">Team:</label>
+      <label class="form-label">Team</label>
       <select class="form-input" id="team" disabled>
         <option value="">Select an event first...</option>
       </select>
 
+      <hr class="section-divider">
+
       <label class="form-label">Robot Height (inches)</label>
       <input class="form-input" type="number">
+
       <label class="form-label">Robot Width (inches)</label>
       <input class="form-input" type="number">
+
       <label class="form-label">Robot Length (inches)</label>
       <input class="form-input" type="number">
 
@@ -66,20 +160,15 @@
 
   <script>
     let teamsData = {};
-
     fetch('teams.json')
       .then(res => res.json())
-      .then(data => {
-        teamsData = data;
-      })
+      .then(data => { teamsData = data; })
       .catch(err => console.error('Could not load teams.json:', err));
 
     document.getElementById('event').addEventListener('change', function () {
       const eventKey = this.value;
       const teamSelect = document.getElementById('team');
-
       teamSelect.innerHTML = '<option value="">Select a team...</option>';
-
       if (eventKey && teamsData[eventKey]) {
         teamsData[eventKey].forEach(team => {
           const option = document.createElement('option');
