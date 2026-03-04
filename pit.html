@@ -3,96 +3,133 @@
 <head>
   <title>1991 Pit Scouting</title>
   <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
     .site-header {
       background: #ff8601;
       color: black;
       text-align: center;
-      padding: 18px;
-      font-size: 28px;
+      padding: 20px;
+      font-size: 26px;
       font-weight: bold;
       letter-spacing: 2px;
       width: 100%;
-      margin-bottom: 20px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 16px;
+    }
+    .nav-buttons .button {
+      flex: 1;
+      max-width: 220px;
+      text-align: center;
+      font-size: 18px;
+      padding: 16px 12px;
     }
     .dark-card {
       background: #1a1a1a;
       border-radius: 16px;
-      padding: 30px;
-      max-width: 450px;
+      padding: 24px 20px;
+      max-width: 600px;
       margin: 0 auto 40px auto;
+      width: calc(100% - 32px);
     }
     .form-title {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: bold;
       margin-bottom: 20px;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 100%;
+      margin: 0;
     }
     .form-label {
       display: block;
       text-align: left;
       font-weight: bold;
-      margin-bottom: 2px;
+      font-size: 16px;
+      margin-bottom: 4px;
     }
     .form-input {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 14px 12px;
+      border-radius: 10px;
       border: none;
       background: #2a2a2a;
       color: white;
-      font-size: 15px;
-      box-sizing: border-box;
+      font-size: 16px;
       appearance: none;
       -webkit-appearance: none;
       background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
       background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 18px;
+      background-position: right 14px center;
+      background-size: 20px;
     }
     input.form-input {
       background-image: none;
     }
     .form-textarea {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 14px 12px;
+      border-radius: 10px;
       border: none;
       background: #2a2a2a;
       color: white;
-      font-size: 15px;
-      min-height: 100px;
-      box-sizing: border-box;
+      font-size: 16px;
+      min-height: 120px;
+      resize: vertical;
     }
     .form-submit {
       background: #ff8601;
       color: black;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 16px;
+      border-radius: 10px;
       border: none;
       cursor: pointer;
       width: 100%;
+      margin-top: 8px;
     }
     .form-checkbox-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-align: left;
+      font-size: 16px;
+    }
+    .form-checkbox-row input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: #ff8601;
     }
     .section-divider {
       border: none;
       border-top: 1px solid #333;
-      margin: 10px 0;
+      margin: 6px 0;
     }
   </style>
 </head>
 <body class="dark-body">
 
-  <div class="site-header">DRAGONSCOPE SCOUTING</div>
+  <div class="site-header">🐉 DRAGONSCOPE SCOUTING</div>
 
-  <div class="button-row" style="margin-bottom: 20px;">
-    <a class="button" href="index.html">Home</a>
+  <div class="nav-buttons">
+    <a class="button" href="index.html">🏠 Home</a>
     <a class="button" href="match.html">Match Scouting</a>
   </div>
 
@@ -186,4 +223,3 @@
 
 </body>
 </html>
-
