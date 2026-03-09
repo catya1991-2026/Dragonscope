@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>1991 Pit Scouting</title>
+  <title>Pit Scouting</title>
   <link rel="stylesheet" href="styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -17,9 +17,6 @@
       letter-spacing: 2px;
       width: 100%;
     }
-
-    <hr style="border: 1px solid black;">
-    
     .nav-buttons {
       display: flex;
       justify-content: center;
@@ -192,7 +189,7 @@
         <option value="10063">10063</option>
         <option value="1071">1071</option>
       </select>
-      
+
       <hr class="section-divider">
 
       <label class="form-label">Drive Train Type</label>
@@ -251,19 +248,19 @@
       <label class="form-label">Where do they intake from?</label>
       <select class="form-input" id="intake">
         <option value="">Select...</option>
-        <option value="yes">Ground</option>
-        <option value="no">Chute</option>
+        <option value="ground">Ground</option>
+        <option value="chute">Chute</option>
       </select>
 
       <hr class="section-divider">
 
-      <label class="form-label">How many autos do they have?</label>
+      <label class="form-label">How many autonomous codes do they have?</label>
       <input class="form-input" type="text" id="auto_count">
 
-      <label class="form-label">Describe their preferred auto</label>
+      <label class="form-label">Describe their preferred code to run</label>
       <input class="form-input" type="text" id="auto_description">
 
-      <label class="form-label">Where do they start for auto?</label>
+      <label class="form-label">Where do they start for autonomous?</label>
       <select class="form-input" id="auto_start">
         <option value="">Select a starting point</option>
         <option value="left">Left</option>
@@ -271,7 +268,7 @@
         <option value="right">Right</option>
       </select>
 
-      <label class="form-label">Can they climb during auto?</label>
+      <label class="form-label">Can they climb during autonomous?</label>
       <select class="form-input" id="auto_climb">
         <option value="">Select...</option>
         <option value="yes">Yes</option>
@@ -313,20 +310,20 @@
       <input class="form-input" type="text" id="automation_description" placeholder="e.g. Limelight for note tracking">
 
       <hr class="section-divider">
-      
+
       <label class="form-label">Where can they climb?</label>
       <select class="form-input" id="climb">
         <option value="">Select...</option>
-        <option value="yes">Level 1</option>
-        <option value="no">Level 2</option>
-        <option value="yes">Level 3</option>
-        <option value="no">All</option>
-        <option value="yes">None</option>
+        <option value="L1">Level 1</option>
+        <option value="L2">Level 2</option>
+        <option value="L3">Level 3</option>
+        <option value="all">All</option>
+        <option value="none">None</option>
       </select>
 
-    <label class="form-label">Please describe their climb & preferred climb location (Right side, Left side, center front, center back, etc.)</label>
+      <label class="form-label">Describe their climb & preferred location (e.g. right side, center front)</label>
       <input class="form-input" type="text" id="climbs">
-      
+
       <hr class="section-divider">
 
       <label class="form-label">Additional Notes</label>
@@ -336,7 +333,7 @@
     </form>
   </div>
 
-  <div class="toast" id="toast">✅ Submission saved!</div>
+  <div class="toast" id="toast">Submission saved!</div>
 
   <footer>Developed by Catie | Team 1991</footer>
 
@@ -405,6 +402,7 @@
         robot_width: document.getElementById('robot_width').value,
         robot_length: document.getElementById('robot_length').value,
         robot_weight: document.getElementById('robot_weight').value,
+        intake: document.getElementById('intake').value,
         auto_count: document.getElementById('auto_count').value,
         auto_description: document.getElementById('auto_description').value,
         auto_start: document.getElementById('auto_start').value,
@@ -415,6 +413,8 @@
         avg_fuel: document.getElementById('avg_fuel').value,
         automation: document.getElementById('automation').value,
         automation_description: document.getElementById('automation_description').value,
+        climb: document.getElementById('climb').value,
+        climbs: document.getElementById('climbs').value,
         notes: document.getElementById('notes').value,
       };
 
@@ -437,5 +437,3 @@
 
 </body>
 </html>
-
-
