@@ -1,14 +1,676 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Analytics</title>
+  <title>1991 Analytics</title>
   <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; background: #111; color: white; font-family: sans-serif; }
+    .site-header {
+      background: #ff8601;
+      color: black;
+      text-align: center;
+      padding: 20px;
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 16px;
+    }
+    .nav-buttons .button {
+      flex: 1;
+      max-width: 220px;
+      text-align: center;
+      font-size: 18px;
+      padding: 16px 12px;
+      background: #2a2a2a;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .nav-buttons .button:hover { background: #ff8601; color: black; }
+    .controls {
+      max-width: 700px;
+      margin: 0 auto 20px auto;
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 160px;
+    }
+    .control-group label {
+      font-weight: bold;
+      font-size: 14px;
+      color: #ff8601;
+    }
+    select {
+      padding: 12px 10px;
+      border-radius: 10px;
+      border: none;
+      background: #2a2a2a;
+      color: white;
+      font-size: 15px;
+      width: 100%;
+    }
+    .load-btn {
+      background: #ff8601;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      align-self: flex-end;
+      white-space: nowrap;
+    }
+    .load-btn:disabled { background: #888; cursor: not-allowed; }
+    .dark-card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 24px 20px;
+      max-width: 700px;
+      margin: 0 auto 24px auto;
+      width: calc(100% - 32px);
+    }
+    .card-title {
+      color: #ff8601;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      height: 300px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      background: #2a2a2a;
+      color: #ff8601;
+      padding: 10px 8px;
+      text-align: left;
+      cursor: pointer;
+      user-select: none;
+    }
+    th:hover { background: #333; }
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    tr:hover td { background: #222; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .badge-green { background: #1a4a1a; color: #4caf50; }
+    .badge-red { background: #4a1a1a; color: #f44336; }
+    .badge-orange { background: #4a2a00; color: #ff8601; }
+    .status-msg {
+      text-align: center;
+      color: #888;
+      padding: 40px;
+      font-size: 16px;
+    }
+    .team-card {
+      background: #222;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .team-card h3 { margin: 0 0 10px 0; color: #ff8601; font-size: 16px; }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+    }
+    .stat-item {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .stat-item .stat-label { font-size: 11px; color: #888; margin-bottom: 2px; }
+    .stat-item .stat-value { font-size: 16px; font-weight: bold; color: white; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      max-width: 700px;
+      margin: 0 auto 16px auto;
+      padding: 0 16px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      background: #2a2a2a;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    .tab.active { background: #ff8601; color: black; }
+    footer {
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      padding: 16px;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Analytics / Picklist</h1>
+  <div class="site-header">DRAGONSCOPE</div>
 
-  <p>Charts, rankings, and data will go here.</p>
+  <div class="nav-buttons">
+    <a class="button" href="index.html">Home</a>
+    <a class="button" href="pit.html">Pit Scouting</a>
+    <a class="button" href="match.html">Match Scouting</a>
+  </div>
+
+  <div class="controls">
+    <div class="control-group">
+      <label>Event</label>
+      <select id="eventSelect">
+        <option value="">Select an event...</option>
+        <option value="2026mabil">2026 Minuteman</option>
+        <option value="2026mawne">2026 Western NE</option>
+        <option value="2026ctwat">2026 Waterbury</option>
+        <option value="2026rikin">2026 URI</option>
+        <option value="2026cthar">2026 Hartford</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label>Team (optional)</label>
+      <select id="teamSelect" disabled>
+        <option value="">All Teams</option>
+      </select>
+    </div>
+    <button class="load-btn" id="loadBtn" onclick="loadData()">Load Data</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('overview')">Overview</div>
+    <div class="tab" onclick="showTab('match')">Match Stats</div>
+    <div class="tab" onclick="showTab('pit')">Pit Data</div>
+    <div class="tab" onclick="showTab('charts')">Charts</div>
+  </div>
+
+  <!-- OVERVIEW TAB -->
+  <div id="tab-overview">
+    <div class="dark-card">
+      <div class="card-title">Team Rankings</div>
+      <div id="rankingsTable"><div class="status-msg">Select an event and click Load Data</div></div>
+    </div>
+  </div>
+
+  <!-- MATCH TAB -->
+  <div id="tab-match" style="display:none">
+    <div class="dark-card">
+      <div class="card-title">Match Scouting — Sort By</div>
+      <select id="matchSortSelect" onchange="renderMatchTable()" style="margin-bottom:16px">
+        <option value="avg_teleop_fuel">Avg Teleop Fuel</option>
+        <option value="avg_auto_fuel">Avg Auto Fuel</option>
+        <option value="climb_rate">Climb Rate (%)</option>
+        <option value="avg_shooting">Avg Shooting Accuracy</option>
+        <option value="avg_defense">Avg Defense Rating</option>
+        <option value="foul_rate">Foul Rate (%)</option>
+        <option value="matches">Matches Scouted</option>
+      </select>
+      <div id="matchTable"><div class="status-msg">Load data first</div></div>
+    </div>
+  </div>
+
+  <!-- PIT TAB -->
+  <div id="tab-pit" style="display:none">
+    <div class="dark-card">
+      <div class="card-title">Pit Scouting Data</div>
+      <div id="pitCards"><div class="status-msg">Load data first</div></div>
+    </div>
+  </div>
+
+  <!-- CHARTS TAB -->
+  <div id="tab-charts" style="display:none">
+    <div class="dark-card">
+      <div class="card-title">Chart Metric</div>
+      <select id="chartMetric" onchange="renderCharts()" style="margin-bottom:20px">
+        <option value="avg_teleop_fuel">Avg Teleop Fuel per Team</option>
+        <option value="avg_auto_fuel">Avg Auto Fuel per Team</option>
+        <option value="avg_shooting">Avg Shooting Accuracy</option>
+        <option value="avg_defense">Avg Defense Rating</option>
+        <option value="climb_rate">Climb Rate (%)</option>
+        <option value="foul_rate">Foul Rate (%)</option>
+        <option value="matches">Matches Scouted</option>
+      </select>
+      <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+    </div>
+    <div class="dark-card">
+      <div class="card-title">Climb Results Breakdown</div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+          <div class="chart-wrap" style="height:220px"><canvas id="climbPieChart"></canvas></div>
+        </div>
+        <div style="flex:1; min-width:200px;">
+          <div class="chart-wrap" style="height:220px"><canvas id="autoClimbPieChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+    <div class="dark-card">
+      <div class="card-title">Drive Train Distribution (Pit)</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="driveChart"></canvas></div>
+    </div>
+  </div>
+
+  <footer>Developed by Catie | Team 1991</footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3wq_x0FMP5q9FnKa_ppTCiVI_OijTDEU",
+      authDomain: "dragon-bdc86.firebaseapp.com",
+      projectId: "dragon-bdc86",
+      storageBucket: "dragon-bdc86.firebasestorage.app",
+      messagingSenderId: "516398791570",
+      appId: "1:516398791570:web:11063eaac685b9ad29df4b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Load teams.json for team dropdown
+    let teamsData = {};
+    fetch('teams.json')
+      .then(r => r.json())
+      .then(d => { teamsData = d; })
+      .catch(e => console.error('teams.json error:', e));
+
+    document.getElementById('eventSelect').addEventListener('change', function () {
+      const eventKey = this.value;
+      const teamSel = document.getElementById('teamSelect');
+      teamSel.innerHTML = '<option value="">All Teams</option>';
+      if (eventKey && teamsData[eventKey]) {
+        teamsData[eventKey].forEach(t => {
+          const o = document.createElement('option');
+          o.value = t.number;
+          o.textContent = `${t.number} – ${t.name}`;
+          teamSel.appendChild(o);
+        });
+        teamSel.disabled = false;
+      } else {
+        teamSel.disabled = true;
+      }
+    });
+
+    // Shared state
+    window._matchDocs = [];
+    window._pitDocs = [];
+    window._teamStats = {};
+    window._chartInstance = null;
+    window._climbPie = null;
+    window._autoClimbPie = null;
+    window._driveChart = null;
+
+    window.loadData = async function () {
+      const eventKey = document.getElementById('eventSelect').value;
+      const teamFilter = document.getElementById('teamSelect').value;
+      if (!eventKey) { alert('Please select an event first.'); return; }
+
+      const btn = document.getElementById('loadBtn');
+      btn.disabled = true;
+      btn.textContent = 'Loading...';
+
+      try {
+        // Fetch match scouting
+        const mQuery = query(collection(db, "match_scouting"), where("event", "==", eventKey));
+        const mSnap = await getDocs(mQuery);
+        let matchDocs = mSnap.docs.map(d => d.data());
+
+        // Fetch pit scouting
+        const pQuery = query(collection(db, "pit_scouting"), where("event", "==", eventKey));
+        const pSnap = await getDocs(pQuery);
+        let pitDocs = pSnap.docs.map(d => d.data());
+
+        // Filter by team if selected
+        if (teamFilter) {
+          matchDocs = matchDocs.filter(d => String(d.team) === String(teamFilter));
+          pitDocs = pitDocs.filter(d => String(d.team) === String(teamFilter));
+        }
+
+        window._matchDocs = matchDocs;
+        window._pitDocs = pitDocs;
+
+        // Aggregate match stats per team
+        const stats = {};
+        matchDocs.forEach(d => {
+          const t = d.team;
+          if (!t) return;
+          if (!stats[t]) stats[t] = {
+            team: t, matches: 0,
+            teleop_fuel_total: 0, auto_fuel_total: 0,
+            shoot_total: 0, shoot_count: 0,
+            defense_total: 0, defense_count: 0,
+            climbs: {}, auto_climbs: 0,
+            fouls: 0, lining_up: 0
+          };
+          const s = stats[t];
+          s.matches++;
+
+          // Teleop fuel — take midpoint of range
+          s.teleop_fuel_total += rangeMid(d.teleop_fuel);
+          s.auto_fuel_total += rangeMid(d.auto_fuel);
+
+          if (d.shooting_accuracy) { s.shoot_total += parseInt(d.shooting_accuracy); s.shoot_count++; }
+          if (d.defense_rating) { s.defense_total += parseInt(d.defense_rating); s.defense_count++; }
+          if (d.climb_level) s.climbs[d.climb_level] = (s.climbs[d.climb_level] || 0) + 1;
+          if (d.auto_climb === 'yes') s.auto_climbs++;
+          if (d.fouls === 'yes') s.fouls++;
+          if (d.lining_up === 'yes') s.lining_up++;
+        });
+
+        // Compute averages
+        Object.values(stats).forEach(s => {
+          s.avg_teleop_fuel = s.matches ? +(s.teleop_fuel_total / s.matches).toFixed(1) : 0;
+          s.avg_auto_fuel = s.matches ? +(s.auto_fuel_total / s.matches).toFixed(1) : 0;
+          s.avg_shooting = s.shoot_count ? +(s.shoot_total / s.shoot_count).toFixed(2) : 0;
+          s.avg_defense = s.defense_count ? +(s.defense_total / s.defense_count).toFixed(2) : 0;
+          const climbAttempts = Object.entries(s.climbs).filter(([k]) => k !== 'not_attempted').reduce((a, [, v]) => a + v, 0);
+          s.climb_rate = s.matches ? +((climbAttempts / s.matches) * 100).toFixed(0) : 0;
+          s.foul_rate = s.matches ? +((s.fouls / s.matches) * 100).toFixed(0) : 0;
+          s.best_climb = bestClimb(s.climbs);
+        });
+
+        window._teamStats = stats;
+
+        renderOverview();
+        renderMatchTable();
+        renderPitCards();
+        renderCharts();
+
+      } catch (err) {
+        alert('Error loading data: ' + err.message);
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Load Data';
+    };
+
+    function rangeMid(val) {
+      if (!val) return 0;
+      if (val === '100+') return 105;
+      const parts = val.split('-');
+      if (parts.length === 2) return (parseInt(parts[0]) + parseInt(parts[1])) / 2;
+      return parseInt(val) || 0;
+    }
+
+    function bestClimb(climbs) {
+      const order = ['L3', 'L2', 'L1', 'attempted_failed', 'not_attempted'];
+      for (const c of order) { if (climbs[c]) return c; }
+      return '—';
+    }
+
+    window.renderOverview = function () {
+      const stats = Object.values(window._teamStats);
+      if (!stats.length) {
+        document.getElementById('rankingsTable').innerHTML = '<div class="status-msg">No match data found for this event.</div>';
+        return;
+      }
+      stats.sort((a, b) => (b.avg_teleop_fuel + b.avg_auto_fuel) - (a.avg_teleop_fuel + a.avg_auto_fuel));
+
+      let html = `<table>
+        <tr>
+          <th onclick="sortOverview('team')">Team</th>
+          <th onclick="sortOverview('matches')">Matches</th>
+          <th onclick="sortOverview('avg_teleop_fuel')">Avg Teleop Fuel</th>
+          <th onclick="sortOverview('avg_auto_fuel')">Avg Auto Fuel</th>
+          <th onclick="sortOverview('avg_shooting')">Shooting</th>
+          <th onclick="sortOverview('climb_rate')">Climb %</th>
+          <th onclick="sortOverview('foul_rate')">Foul %</th>
+        </tr>`;
+      stats.forEach(s => {
+        html += `<tr>
+          <td><strong>${s.team}</strong></td>
+          <td>${s.matches}</td>
+          <td>${s.avg_teleop_fuel}</td>
+          <td>${s.avg_auto_fuel}</td>
+          <td>${s.avg_shooting}/5</td>
+          <td><span class="badge ${s.climb_rate >= 60 ? 'badge-green' : s.climb_rate >= 30 ? 'badge-orange' : 'badge-red'}">${s.climb_rate}%</span></td>
+          <td><span class="badge ${s.foul_rate >= 50 ? 'badge-red' : 'badge-orange'}">${s.foul_rate}%</span></td>
+        </tr>`;
+      });
+      html += '</table>';
+      document.getElementById('rankingsTable').innerHTML = html;
+    };
+
+    window.sortOverview = function (key) {
+      const stats = Object.values(window._teamStats);
+      stats.sort((a, b) => {
+        if (key === 'team') return String(a.team).localeCompare(String(b.team));
+        return (b[key] || 0) - (a[key] || 0);
+      });
+      // Re-render with sorted order
+      let html = `<table>
+        <tr>
+          <th onclick="sortOverview('team')">Team</th>
+          <th onclick="sortOverview('matches')">Matches</th>
+          <th onclick="sortOverview('avg_teleop_fuel')">Avg Teleop Fuel</th>
+          <th onclick="sortOverview('avg_auto_fuel')">Avg Auto Fuel</th>
+          <th onclick="sortOverview('avg_shooting')">Shooting</th>
+          <th onclick="sortOverview('climb_rate')">Climb %</th>
+          <th onclick="sortOverview('foul_rate')">Foul %</th>
+        </tr>`;
+      stats.forEach(s => {
+        html += `<tr>
+          <td><strong>${s.team}</strong></td>
+          <td>${s.matches}</td>
+          <td>${s.avg_teleop_fuel}</td>
+          <td>${s.avg_auto_fuel}</td>
+          <td>${s.avg_shooting}/5</td>
+          <td><span class="badge ${s.climb_rate >= 60 ? 'badge-green' : s.climb_rate >= 30 ? 'badge-orange' : 'badge-red'}">${s.climb_rate}%</span></td>
+          <td><span class="badge ${s.foul_rate >= 50 ? 'badge-red' : 'badge-orange'}">${s.foul_rate}%</span></td>
+        </tr>`;
+      });
+      html += '</table>';
+      document.getElementById('rankingsTable').innerHTML = html;
+    };
+
+    window.renderMatchTable = function () {
+      const stats = Object.values(window._teamStats);
+      if (!stats.length) { document.getElementById('matchTable').innerHTML = '<div class="status-msg">No data loaded.</div>'; return; }
+      const key = document.getElementById('matchSortSelect').value;
+      stats.sort((a, b) => (b[key] || 0) - (a[key] || 0));
+
+      let html = `<table><tr>
+        <th>Team</th><th>Matches</th><th>Avg Teleop Fuel</th>
+        <th>Avg Auto Fuel</th><th>Shooting</th><th>Defense</th>
+        <th>Climb %</th><th>Best Climb</th><th>Foul %</th>
+      </tr>`;
+      stats.forEach(s => {
+        html += `<tr>
+          <td><strong>${s.team}</strong></td>
+          <td>${s.matches}</td>
+          <td>${s.avg_teleop_fuel}</td>
+          <td>${s.avg_auto_fuel}</td>
+          <td>${s.avg_shooting}/5</td>
+          <td>${s.avg_defense}/5</td>
+          <td><span class="badge ${s.climb_rate >= 60 ? 'badge-green' : s.climb_rate >= 30 ? 'badge-orange' : 'badge-red'}">${s.climb_rate}%</span></td>
+          <td>${s.best_climb}</td>
+          <td><span class="badge ${s.foul_rate >= 50 ? 'badge-red' : 'badge-orange'}">${s.foul_rate}%</span></td>
+        </tr>`;
+      });
+      html += '</table>';
+      document.getElementById('matchTable').innerHTML = html;
+    };
+
+    window.renderPitCards = function () {
+      const docs = window._pitDocs;
+      if (!docs.length) { document.getElementById('pitCards').innerHTML = '<div class="status-msg">No pit scouting data found.</div>'; return; }
+      let html = '';
+      docs.forEach(d => {
+        html += `<div class="team-card">
+          <h3>Team ${d.team}</h3>
+          <div class="stat-grid">
+            <div class="stat-item"><div class="stat-label">Drive Train</div><div class="stat-value">${d.drive_train || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Swerve Type</div><div class="stat-value">${d.swerve_type || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Weight</div><div class="stat-value">${d.robot_weight ? d.robot_weight + ' lbs' : '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Dimensions</div><div class="stat-value">${d.robot_width && d.robot_length ? d.robot_width + '" × ' + d.robot_length + '"' : '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Fuel Capacity</div><div class="stat-value">${d.fuel_capacity || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Avg Fuel/Shift</div><div class="stat-value">${d.avg_fuel || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Auto Climb</div><div class="stat-value">${d.auto_climb || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Climb Level</div><div class="stat-value">${d.climb || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Intake</div><div class="stat-value">${d.intake || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Automation</div><div class="stat-value">${d.automation || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Over Bump</div><div class="stat-value">${d.bump || '—'}</div></div>
+            <div class="stat-item"><div class="stat-label">Under Trench</div><div class="stat-value">${d.trench || '—'}</div></div>
+          </div>
+          ${d.notes ? `<div style="margin-top:10px; font-size:13px; color:#aaa;"><strong>Notes:</strong> ${d.notes}</div>` : ''}
+        </div>`;
+      });
+      document.getElementById('pitCards').innerHTML = html;
+    };
+
+    window.renderCharts = function () {
+      const stats = Object.values(window._teamStats);
+      if (!stats.length) return;
+
+      const metric = document.getElementById('chartMetric') ? document.getElementById('chartMetric').value : 'avg_teleop_fuel';
+      stats.sort((a, b) => (b[metric] || 0) - (a[metric] || 0));
+
+      const labels = stats.map(s => String(s.team));
+      const values = stats.map(s => s[metric] || 0);
+
+      const metricLabels = {
+        avg_teleop_fuel: 'Avg Teleop Fuel',
+        avg_auto_fuel: 'Avg Auto Fuel',
+        avg_shooting: 'Avg Shooting Accuracy',
+        avg_defense: 'Avg Defense Rating',
+        climb_rate: 'Climb Rate (%)',
+        foul_rate: 'Foul Rate (%)',
+        matches: 'Matches Scouted'
+      };
+
+      // Main bar chart
+      if (window._chartInstance) window._chartInstance.destroy();
+      const ctx = document.getElementById('mainChart').getContext('2d');
+      window._chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: metricLabels[metric] || metric,
+            data: values,
+            backgroundColor: '#ff8601',
+            borderRadius: 6,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: 'white' } } },
+          scales: {
+            x: { ticks: { color: 'white' }, grid: { color: '#333' } },
+            y: { ticks: { color: 'white' }, grid: { color: '#333' } }
+          }
+        }
+      });
+
+      // Climb pie chart (endgame)
+      const climbTotals = { L1: 0, L2: 0, L3: 0, attempted_failed: 0, not_attempted: 0 };
+      window._matchDocs.forEach(d => {
+        if (d.climb_level && climbTotals[d.climb_level] !== undefined) climbTotals[d.climb_level]++;
+      });
+      if (window._climbPie) window._climbPie.destroy();
+      const cpCtx = document.getElementById('climbPieChart').getContext('2d');
+      window._climbPie = new Chart(cpCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['L1', 'L2', 'L3', 'Failed', 'Not Attempted'],
+          datasets: [{ data: Object.values(climbTotals), backgroundColor: ['#4caf50', '#2196f3', '#9c27b0', '#ff5722', '#555'] }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: 'white', font: { size: 11 } } },
+            title: { display: true, text: 'Endgame Climb', color: '#ff8601' }
+          }
+        }
+      });
+
+      // Auto climb pie chart
+      let autoYes = 0, autoNo = 0;
+      window._matchDocs.forEach(d => { d.auto_climb === 'yes' ? autoYes++ : autoNo++; });
+      if (window._autoClimbPie) window._autoClimbPie.destroy();
+      const acCtx = document.getElementById('autoClimbPieChart').getContext('2d');
+      window._autoClimbPie = new Chart(acCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Climbed', 'Did Not Climb'],
+          datasets: [{ data: [autoYes, autoNo], backgroundColor: ['#ff8601', '#333'] }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: 'white', font: { size: 11 } } },
+            title: { display: true, text: 'Auto Climb', color: '#ff8601' }
+          }
+        }
+      });
+
+      // Drive train bar chart from pit data
+      const driveCounts = {};
+      window._pitDocs.forEach(d => {
+        if (d.drive_train) driveCounts[d.drive_train] = (driveCounts[d.drive_train] || 0) + 1;
+      });
+      if (window._driveChart) window._driveChart.destroy();
+      const drCtx = document.getElementById('driveChart').getContext('2d');
+      window._driveChart = new Chart(drCtx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(driveCounts),
+          datasets: [{ label: '# of Teams', data: Object.values(driveCounts), backgroundColor: '#ff8601', borderRadius: 6 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: 'white' } } },
+          scales: {
+            x: { ticks: { color: 'white' }, grid: { color: '#333' } },
+            y: { ticks: { color: 'white', stepSize: 1 }, grid: { color: '#333' } }
+          }
+        }
+      });
+    };
+
+    window.showTab = function (name) {
+      ['overview', 'match', 'pit', 'charts'].forEach(t => {
+        document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+      });
+      document.querySelectorAll('.tab').forEach((el, i) => {
+        el.classList.toggle('active', ['overview', 'match', 'pit', 'charts'][i] === name);
+      });
+      if (name === 'charts') renderCharts();
+    };
+  </script>
 
 </body>
 </html>
