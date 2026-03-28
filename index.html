@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>DragonScope Scouting</title>
-  <link rel="stylesheet" href="styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; }
@@ -25,31 +24,40 @@
       margin: 0 auto;
     }
 
+    .nav-buttons {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
     .button-row {
       display: flex;
       justify-content: center;
-      gap: 16px;
-      margin-bottom: 16px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
     .button {
       background: #ff8601;
       color: black;
-      padding: 16px 24px;
+      padding: 12px 16px;
       border-radius: 10px;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: bold;
       display: inline-block;
       flex: 1;
-      max-width: 220px;
     }
 
     .button.wide {
-      width: 100%;
-      max-width: 100%;
       display: block;
-      margin: 0 auto;
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 17px;
+      border-radius: 10px;
+      text-decoration: none;
+      background: #ff8601;
+      color: black;
+      font-weight: bold;
     }
 
     .match-tracker, .rankings-card {
@@ -162,7 +170,6 @@
       vertical-align: middle;
     }
 
-    /* Rankings table */
     .rankings-table {
       width: 100%;
       border-collapse: collapse;
@@ -220,11 +227,15 @@
 
   <div class="main-content">
 
-    <div class="button-row" style="margin-top: 24px;">
-      <a class="button" href="pit.html">Pit Scouting</a>
-      <a class="button" href="match.html">Match Scouting</a>
-      <div>
-      <a class="button-wide" href="analytics.html">Analytics</a>
+    <div class="nav-buttons">
+      <!-- Small side-by-side buttons -->
+      <div class="button-row">
+        <a class="button" href="pit.html">Pit Scouting</a>
+        <a class="button" href="match.html">Match Scouting</a>
+      </div>
+      <!-- Wide analytics button below -->
+      <a class="button wide" href="analytics.html">Analytics</a>
+    </div>
 
     <!-- Match Tracker -->
     <div class="match-tracker">
@@ -380,7 +391,6 @@
         }
 
         const rankings = data.rankings;
-        // Highlight team 1991 and allied scouting teams
         const highlightTeams = ['frc1991', 'frc10063', 'frc1071'];
 
         let rows = rankings.map(r => {
@@ -422,14 +432,10 @@
       loadRankings();
     }
 
-    // Init
     populateEvents();
     loadAll();
 
-    // Re-load when event changes
     document.getElementById('eventSelect').addEventListener('change', loadAll);
-
-    // Auto-refresh every 60 seconds
     setInterval(loadAll, 60000);
   </script>
 
